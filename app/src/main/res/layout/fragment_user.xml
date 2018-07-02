@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    >
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="400px"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        >
+
+        <com.zhy.autolayout.AutoFrameLayout
+            android:layout_width="460px"
+            android:layout_height="460px"
+            app:layout_auto_baseheight="width"
+            android:background="@drawable/icon_header_bg"
+            >
+
+            <ImageView
+                android:id="@+id/head_img"
+                android:layout_width="390px"
+                android:layout_height="390px"
+                app:layout_auto_baseheight="width"
+                android:layout_gravity="center"
+                />
+
+        </com.zhy.autolayout.AutoFrameLayout>
+
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="180px"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20px"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:background="@drawable/user_info_bg"
+            >
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_auto_baseheight="width"
+                android:src="@drawable/e_user_name_but"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="80px"
+                />
+
+            <TextView
+                android:id="@+id/user_name_tv"
+                android:layout_marginTop="40px"
+                android:layout_width="130px"
+                android:layout_height="wrap_content"
+                style="@style/TextStyle_44_FFC053"
+                android:text="弗拉基米尔·弗拉基米罗维奇·普京"
+                android:gravity="center"
+                />
+
+            <TextView
+                android:layout_marginTop="60px"
+                android:id="@+id/sex_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextStyle_44_FFFFFF"
+                />
+            <TextView
+                android:layout_marginTop="10px"
+                android:id="@+id/code_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextStyle_44_FFFFFF"
+                />
+            <TextView
+                android:layout_marginTop="10px"
+                android:id="@+id/grade_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextStyle_44_FFFFFF"
+                android:layout_marginBottom="80px"
+                />
+
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="80px"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_user_voice"
+                />
+
+            <SeekBar
+                android:id="@+id/seek_bar"
+                android:layout_width="130px"
+                android:layout_height="wrap_content"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:splitTrack="false"
+                android:maxHeight="2dp"
+                android:progressDrawable="@drawable/play_seekbar_bg"
+                android:thumb="@drawable/slider_thumb_pressed"
+                />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+
+
+
+</com.zhy.autolayout.AutoRelativeLayout>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/view_main"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:id="@+id/title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24px"
+        android:background="@color/gray_0E1"
+        style="@style/TextStyle_44_000000"
+        />
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="48px"
+        android:layout_marginLeft="24px"
+        android:layout_marginBottom="24px"
+        android:gravity="center_vertical"
+        >
+        <com.xjhsk.exampad.widget.ProgressImageView
+            android:id="@+id/iv_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/e_wave"
+            />
+
+        <TextView
+            android:layout_marginLeft="6px"
+            android:id="@+id/problem_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextStyle_44_333333"
+            />
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="24px"
+        android:layout_marginRight="24px"
+        android:layout_marginTop="24px"
+        android:layout_marginBottom="24px"
+        android:gravity="center_vertical"
+        >
+
+        <TextView
+            android:layout_marginLeft="24px"
+            android:id="@+id/sort_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            style="@style/TextStyle_44_333333"
+            />
+
+        <ImageView
+            android:id="@+id/sort_clear_img"
+            android:layout_marginLeft="10px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/e_sort_button_clear"
+            />
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        android:layout_weight="1"
+        android:layout_marginLeft="24px"
+        android:layout_marginRight="24px"
+        />
+
+</com.zhy.autolayout.AutoLinearLayout>

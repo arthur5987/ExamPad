@@ -1,0 +1,157 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+
+    </style>
+
+    <!--<item name="android:windowNoTitle">true</item>-->
+    <!--<item name="android:windowFullscreen">true</item>-->
+    <!--<item name="android:windowIsTranslucent">true</item>-->
+
+    <!--<item name="android:windowTranslucentStatus">true</item>-->
+    <!--<item name="android:windowTranslucentNavigation">true</item>-->
+
+
+    <!--View.SYSTEM_UI_FLAG_LAYOUT_STABLE-->
+    <!--| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION-->
+    <!--| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN-->
+    <!--| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar-->
+    <!--| View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar-->
+    <!--| View.SYSTEM_UI_FLAG_IMMERSIVE);-->
+
+    <style name="TextStyle_32_333333">
+        <item name="android:textSize">@dimen/textsize_32</item>
+        <item name="android:textColor">@color/black_333</item>
+    </style>
+
+    <style name="TextStyle_30_999999">
+        <item name="android:textSize">@dimen/textsize_30</item>
+        <item name="android:textColor">@color/gray_999</item>
+    </style>
+
+    <!--34的字体-->
+    <style name="TextStyle_34_FFFFFF">
+        <item name="android:textSize">@dimen/textsize_34</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextStyle_34_000000">
+        <item name="android:textSize">@dimen/textsize_34</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextStyle_34_FFC053">
+        <item name="android:textSize">@dimen/textsize_34</item>
+        <item name="android:textColor">@color/yellow_053</item>
+    </style>
+
+    <style name="TextStyle_36_FFFFFF">
+        <item name="android:textSize">@dimen/textsize_36</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextStyle_36_666666">
+        <item name="android:textSize">@dimen/textsize_36</item>
+        <item name="android:textColor">@color/gray_666</item>
+    </style>
+
+    <style name="TextStyle_36_999999">
+        <item name="android:textSize">@dimen/textsize_36</item>
+        <item name="android:textColor">@color/gray_999</item>
+    </style>
+
+    <style name="TextStyle_36_000000">
+        <item name="android:textSize">@dimen/textsize_36</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextStyle_36_333333">
+        <item name="android:textSize">@dimen/textsize_36</item>
+        <item name="android:textColor">@color/black_333</item>
+    </style>
+
+    <style name="TextStyle_40_333333">
+        <item name="android:textSize">@dimen/textsize_40</item>
+        <item name="android:textColor">@color/black_333</item>
+    </style>
+
+    <style name="TextStyle_40_999999">
+        <item name="android:textSize">@dimen/textsize_40</item>
+        <item name="android:textColor">@color/gray_999</item>
+    </style>
+
+    <style name="TextStyle_44_000000">
+        <item name="android:textSize">@dimen/textsize_44</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextStyle_44_999999">
+        <item name="android:textSize">@dimen/textsize_44</item>
+        <item name="android:textColor">@color/gray_999</item>
+    </style>
+
+    <style name="TextStyle_44_333333">
+        <item name="android:textSize">@dimen/textsize_44</item>
+        <item name="android:textColor">@color/black_333</item>
+    </style>
+
+    <style name="TextStyle_44_FFC053">
+        <item name="android:textSize">@dimen/textsize_44</item>
+        <item name="android:textColor">@color/yellow_053</item>
+    </style>
+
+    <style name="TextStyle_44_117FFF">
+        <item name="android:textSize">@dimen/textsize_44</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="TextStyle_44_FFFFFF">
+        <item name="android:textSize">@dimen/textsize_44</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextStyle_52_333333">
+        <item name="android:textSize">@dimen/textsize_52</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextStyle_60_117FFF">
+        <item name="android:textSize">@dimen/textsize_60</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="TextStyle_90_FFFFFF">
+        <item name="android:textSize">@dimen/textsize_90</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!--进度条-->
+    <style name="ProgressBar_Login" parent="@android:style/Widget.ProgressBar.Horizontal">
+        <item name="android:maxHeight">20dp</item>
+        <item name="android:minHeight">10dp</item>
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:indeterminateDrawable">
+            @android:drawable/progress_indeterminate_horizontal
+        </item>
+        <item name="android:progressDrawable">@drawable/progressbar_login</item>
+    </style>
+
+    <!--Theme.AppCompat.Light.DarkActionBar-->
+    <!--<style name="DialogUtil" parent="Theme.AppCompat.NoActionBar">-->
+    <style name="DialogUtil" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+    </style>
+</resources>

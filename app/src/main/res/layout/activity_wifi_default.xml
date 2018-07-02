@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="@drawable/main_bg"
+    >
+
+    <!--布局分为两类    左边为wifi 密码区域   右边为键盘输入区域-->
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        >
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="320px"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="当前连接的网络"
+                style="@style/TextStyle_44_FFFFFF"
+                />
+
+            <TextView
+                android:layout_marginTop="24px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/wifi_name_tv"
+                style="@style/TextStyle_44_FFC053"
+                />
+
+            <!--<android.support.v7.widget.RecyclerView-->
+                <!--android:id="@+id/recycler_view"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="380px"-->
+                <!--android:background="@drawable/wifi_list_bg"-->
+                <!--android:visibility="invisible"-->
+                <!--/>-->
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="24px"
+                android:id="@+id/ip_layout"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="服务器IP地址"
+                    style="@style/TextStyle_44_FFFFFF"
+                    />
+
+                <TextView
+                    android:id="@+id/ip_tv"
+                    android:layout_marginTop="24px"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="28px"
+                    android:paddingBottom="28px"
+                    android:paddingLeft="40px"
+                    android:paddingRight="60px"
+                    style="@style/TextStyle_44_FFFFFF"
+                    android:text="192.168.1.1"
+                    android:background="@drawable/wifi_list_bg"
+                    />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_marginTop="30px"
+                android:layout_width="match_parent"
+                android:layout_height="80px"
+                android:orientation="horizontal"
+                android:id="@+id/control_layout"
+                android:layout_marginLeft="2px"
+                android:layout_marginRight="2px"
+                >
+
+                <ImageView
+                    android:id="@+id/refresh_img"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_refresh_wifi_img"
+                    android:layout_weight="1"
+                    />
+
+                <ImageView
+                    android:id="@+id/connect_img"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_connect_wifi_img"
+                    android:visibility="invisible"
+                    />
+
+                <ImageView
+                    android:id="@+id/sure_img"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_sure_img"
+                    />
+
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <!--键盘-->
+    <include
+        layout="@layout/login_keyboard"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:visibility="gone"
+        />
+
+</com.zhy.autolayout.AutoLinearLayout>

@@ -1,0 +1,207 @@
+apply plugin: 'com.android.application'
+apply plugin: 'packer'
+apply plugin: 'com.jakewharton.butterknife'
+//   执行打包命令  ./gradlew clean apkRelease
+
+android {
+
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+
+    //资源文件问题出现
+    aaptOptions.cruncherEnabled = false
+    aaptOptions.useNewCruncher = false
+
+
+    defaultConfig {
+        applicationId "com.xjhsk.exampad"
+        minSdkVersion 19
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+
+        ndk {
+            abiFilters "armeabi-v7a"  // 指定要ndk需要兼容的架构(这样其他依赖包里mips,x86,armeabi,arm-v8之类的so会被过滤掉)
+        }
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            java.srcDirs = ['src/main/java']
+            aidl.srcDirs = ['src/main/aidl']
+            renderscript.srcDirs = ['src/main']
+            res.srcDirs = ['src/main/res']
+            assets.srcDirs = ['src/main/assets']
+            jniLibs.srcDir 'src/main/jniLibs'
+        }
+
+        // Move the tests to tests/java, tests/res, etc...
+        instrumentTest.setRoot('tests')
+
+        // Move the build types to build-types/<type>
+        // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
+        // This moves them out of them default location under src/<type>/... which would
+        // conflict with src/ being used by the main source set.
+        // Adding new build types or product flavors should be accompanied
+        // by a similar customization.
+        debug.setRoot('build-types/debug')
+        release.setRoot('build-types/release')
+    }
+
+    dexOptions {
+        jumboMode true
+    }
+
+    //程序在buid的时候，会执行lint检查，有任何的错误或者警告提示，都会终止构建，我们可以将其关掉
+    lintOptions {
+        abortOnError false
+        htmlReport true
+    }
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/rxjava.properties'
+    }
+
+    //签名
+    signingConfigs {
+        debug {
+            //这样写就得把demo.jk文件放在项目目录
+            storeFile file("/asconfig/key.jks")
+            storePassword "123456"
+            keyAlias "hello"
+            keyPassword "123456"
+            v2SigningEnabled true
+        }
+        release {
+            //这样写就得把demo.jk文件放在项目目录
+            storeFile file("/asconfig/key.jks")
+            storePassword "123456"
+            keyAlias "hello"
+            keyPassword "123456"
+            v2SigningEnabled true
+        }
+    }
+
+
+    buildTypes {
+        debug {
+            // 显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+
+            versionNameSuffix "-debug"
+            minifyEnabled false
+            zipAlignEnabled false
+            shrinkResources false
+            multiDexEnabled true
+
+//            // 不显示Log
+//            buildConfigField "boolean", "LOG_DEBUG", "true"
+//            //混淆
+//            minifyEnabled true
+//            //Zipalign优化
+//            zipAlignEnabled true
+//
+//            multiDexEnabled true
+//            //注：Gradle2.0以上的版本minifyEnabled字段为true时已经包含了shrinkResources,在代码优化时会自动去掉多余资源，
+//            //所以在打正式包时也不需要设置shrinkResources字段。
+//            //移除无用的resource文件
+//            shrinkResources true
+//            //前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            //签名
+//            signingConfig signingConfigs.release
+
+        }
+
+        release {
+
+            // 显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+
+            minifyEnabled false
+            zipAlignEnabled false
+            shrinkResources false
+            multiDexEnabled true
+
+//            // 不显示Log
+//            buildConfigField "boolean", "LOG_DEBUG", "false"
+//            //混淆
+//            minifyEnabled true
+//            //Zipalign优化
+//            zipAlignEnabled true
+//
+//            multiDexEnabled true
+//            //注：Gradle2.0以上的版本minifyEnabled字段为true时已经包含了shrinkResources,在代码优化时会自动去掉多余资源，
+//            //所以在打正式包时也不需要设置shrinkResources字段。
+//            //移除无用的resource文件
+//            shrinkResources true
+            //前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //签名
+            signingConfig signingConfigs.release
+        }
+    }
+    sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:multidex:1.0.1'
+    compile project(':rxfiflibrary2')
+    //    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
+    //下拉刷新
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:cardview-v7:25.3.1'
+    compile 'com.jakewharton:butterknife:8.5.1'
+    compile 'com.google.dagger:dagger:2.11'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.mcxiaoke.packer-ng:helper:2.0.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
+    //列表下拉
+    compile 'com.chanven.lib:cptr:1.1.0'
+    testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
+    //弹框
+    compile 'com.orhanobut:dialogplus:1.11@aar'
+    compile project(':record')
+    //wifi管理  https://github.com/kongqw/AndroidWiFiManager
+    compile 'com.github.kongqw:AndroidWiFiManager:1.1.1'
+    //socket https://github.com/vilyever/AndroidSocketClient
+    //    compile 'com.github.vilyever:AndroidSocketClient:3.0.2'
+    compile 'com.github.vilyever:AndroidSocketClient:1.5.1'
+    //下载
+    compile 'com.loopj.android:android-async-http:1.4.9'
+    //动态改变baseurl  https://github.com/JessYanCoding/RetrofitUrlManager
+    compile 'me.jessyan:retrofit-url-manager:1.1.0'
+    //新下载
+    //    compile 'zlc.season:rxdownload3:1.2.2'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+}
+
+packer {
+    archiveNameFormat = 'exampad-${buildTime}'
+//    archiveNameFormat = 'englishts-${channel}-${buildTime}'
+    //${buildType}-v${versionName}-${channel}
+    archiveOutput = new File(project.rootProject.buildDir, "myapks")
+
+    channelList = ['*360*']
+
+//    channelList = ['*Xiaomi*','*360*']
+
+//    channelList = ['*Douban*', 'Google/', '中文/@#市场', 'Hello@World',
+//                   'GradleTest', '20070601!@#$%^&*(){}:"<>?-=[];\',./']
+//    channelFile = new File(project.rootDir, "markets.txt")
+//    channelMap = [
+//            "Cat" : project.rootProject.file("channels/cat.txt"),
+//            "Dog" : project.rootProject.file("channels/dog.txt"),
+//            "Fish": project.rootProject.file("channels/channels.txt")
+//    ]
+}

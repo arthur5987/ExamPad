@@ -26,7 +26,9 @@ import net.lingala.zip4j.exception.ZipException;
 
 import java.io.File;
 
-
+/**
+ * 联网版
+ */
 public class WelcomeActivity extends SimpleActivity {
 
     private static final String TAG = WelcomeActivity.class.getSimpleName();

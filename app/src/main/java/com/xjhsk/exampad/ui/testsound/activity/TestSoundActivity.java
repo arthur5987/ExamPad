@@ -2,23 +2,17 @@ package com.xjhsk.exampad.ui.testsound.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.KeyEvent;
 
 import com.weidingqiang.rxfiflibrary2.utils.LogUtil;
 import com.xjhsk.exampad.R;
-import com.xjhsk.exampad.base.RootActivity;
 import com.xjhsk.exampad.base.RootFragmentActivity;
-import com.xjhsk.exampad.base.RxBus;
-import com.xjhsk.exampad.model.event.VolumeEvent;
 import com.xjhsk.exampad.ui.login.activity.LoginActivity;
-import com.xjhsk.exampad.ui.login.activity.ReadyLoginActivity;
-import com.xjhsk.exampad.ui.login.contract.ReadyLoginContract;
-import com.xjhsk.exampad.ui.login.presenter.ReadyLoginPresenter;
 import com.xjhsk.exampad.ui.testsound.contract.TestSoundContract;
 import com.xjhsk.exampad.ui.testsound.fragment.RecordFragment;
 import com.xjhsk.exampad.ui.testsound.fragment.UserFragment;
+import com.xjhsk.exampad.ui.testsound.fragment_stand_alone.RecordFragment_SA;
+import com.xjhsk.exampad.ui.testsound.fragment_stand_alone.UserFragment_SA;
 import com.xjhsk.exampad.ui.testsound.presenter.TestSoundPresenter;
 
 /**
@@ -34,8 +28,14 @@ public class TestSoundActivity extends RootFragmentActivity<TestSoundPresenter> 
 
     @Override
     protected void initEventAndData() {
-        loadRootFragment(R.id.user_container, UserFragment.newInstance());
-        loadRootFragment(R.id.main_container, RecordFragment.newInstance());
+        if (isNetWorking()){
+            loadRootFragment(R.id.user_container, UserFragment.newInstance());
+            loadRootFragment(R.id.main_container, RecordFragment.newInstance());
+        }else {
+            loadRootFragment(R.id.user_container, UserFragment_SA.newInstance());
+            loadRootFragment(R.id.main_container, RecordFragment_SA.newInstance());
+        }
+
     }
 
     @Override

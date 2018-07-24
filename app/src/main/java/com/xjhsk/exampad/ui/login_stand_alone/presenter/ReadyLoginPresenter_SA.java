@@ -1,6 +1,4 @@
-package com.xjhsk.exampad.ui.login.presenter;
-
-import android.util.Log;
+package com.xjhsk.exampad.ui.login_stand_alone.presenter;
 
 import com.blankj.utilcode.util.TimeUtils;
 import com.weidingqiang.rxfiflibrary2.utils.LogUtil;
@@ -13,10 +11,8 @@ import com.xjhsk.exampad.model.bean.ExamTitleVO;
 import com.xjhsk.exampad.model.event.SocketEvent;
 import com.xjhsk.exampad.model.http.DataManager;
 import com.xjhsk.exampad.model.http.response.HttpResponse;
-import com.xjhsk.exampad.ui.login.contract.LoginContract;
-import com.xjhsk.exampad.ui.login.contract.ReadyLoginContract;
+import com.xjhsk.exampad.ui.login_stand_alone.contract.ReadyLoginContract_SA;
 import com.xjhsk.exampad.utils.CommonSubscriber;
-import com.xjhsk.exampad.utils.RxTimerUtil;
 import com.xjhsk.exampad.utils.RxUtil;
 import com.xjhsk.exampad.utils.Sha1Util;
 
@@ -30,19 +26,19 @@ import io.reactivex.functions.Predicate;
  * 邮箱：dqwei@iflytek.com
  */
 
-public class ReadyLoginPresenter extends RxPresenter<ReadyLoginContract.View> implements ReadyLoginContract.Presenter {
+public class ReadyLoginPresenter_SA extends RxPresenter<ReadyLoginContract_SA.View> implements ReadyLoginContract_SA.Presenter {
 
-    protected static final String TAG = ReadyLoginPresenter.class.getSimpleName();
+    protected static final String TAG = ReadyLoginPresenter_SA.class.getSimpleName();
 
     private DataManager mDataManager;
 
     @Inject
-    public ReadyLoginPresenter(DataManager mDataManager) {
+    public ReadyLoginPresenter_SA(DataManager mDataManager) {
         this.mDataManager = mDataManager;
     }
 
     @Override
-    public void attachView(ReadyLoginContract.View view) {
+    public void attachView(ReadyLoginContract_SA.View view) {
         super.attachView(view);
         registerEvent();
     }
@@ -189,7 +185,6 @@ public class ReadyLoginPresenter extends RxPresenter<ReadyLoginContract.View> im
                             public void onNext(String data) {
                                 LogUtil.debug(TAG,"获取状态成功");
                                 mView.jumpLogin();
-                                RxTimerUtil.cancel(); // 后加的
                             }
 
                             @Override
@@ -213,30 +208,33 @@ public class ReadyLoginPresenter extends RxPresenter<ReadyLoginContract.View> im
         String time_mills = String.valueOf(TimeUtils.getNowTimeMills());
         String key = Sha1Util.getSha1(time_mills+ Constants.KEY);
 
-        addSubscribe(mDataManager.getExamTitle(key, AppContext.getInstance().getIp(), time_mills)
-                .compose(RxUtil.<HttpResponse<ExamTitleVO>>rxSchedulerHelper())
-                .compose(RxUtil.<ExamTitleVO>handleTestResult())
-                .subscribeWith(
-                        new CommonSubscriber<ExamTitleVO>(mView) {
-                            @Override
-                            public void onNext(ExamTitleVO data) {
-                                LogUtil.debug(TAG,"获取考试题目成功");
-                                mView.getExamTitleSuccess(data);
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                LogUtil.debug(TAG,"获取考试题目失败");
-                                mView.responseError(e.getMessage());
-                            }
-
-                            @Override
-                            public void onComplete() {
-                                super.onComplete();
-                            }
-                        }
-                )
-        );
+//        addSubscribe(mDataManager.getExamTitle(key, AppContext.getInstance().getIp(), time_mills)
+//                .compose(RxUtil.<HttpResponse<ExamTitleVO>>rxSchedulerHelper())
+//                .compose(RxUtil.<ExamTitleVO>handleTestResult())
+//                .subscribeWith(
+//                        new CommonSubscriber<ExamTitleVO>(mView) {
+//                            @Override
+//                            public void onNext(ExamTitleVO data) {
+//                                LogUtil.debug(TAG,"获取考试题目成功");
+//                                mView.getExamTitleSuccess(data);
+//                            }
+//
+//                            @Override
+//                            public void onError(Throwable e) {
+//                                LogUtil.debug(TAG,"获取考试题目失败");
+//                                mView.responseError(e.getMessage());
+//                            }
+//
+//                            @Override
+//                            public void onComplete() {
+//                                super.onComplete();
+//                            }
+//                        }
+//                )
+//        );
+        ExamTitleVO examTitleVO = new ExamTitleVO();
+        examTitleVO.setTitle("新疆汉语考试一级");
+        mView.getExamTitleSuccess(examTitleVO);
 
     }
 }

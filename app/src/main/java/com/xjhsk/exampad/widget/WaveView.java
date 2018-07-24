@@ -37,7 +37,7 @@ public class WaveView extends View {
         super(context, attrs);
 
         paint = new Paint();
-        paint.setColor(getResources().getColor(R.color.colorAccent));
+        paint.setColor(getResources().getColor(R.color.colorPrimary));
 
         heightrects = new ArrayList<Double>();
 

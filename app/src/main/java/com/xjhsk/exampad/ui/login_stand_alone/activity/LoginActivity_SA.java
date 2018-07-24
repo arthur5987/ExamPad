@@ -1,36 +1,25 @@
-package com.xjhsk.exampad.ui.login.activity;
+package com.xjhsk.exampad.ui.login_stand_alone.activity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blankj.utilcode.util.EmptyUtils;
-import com.blankj.utilcode.util.FileUtils;
-import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.fifedu.record.media.record.AudioPlayManager;
 import com.fifedu.record.media.record.AudioplayInterface;
 import com.weidingqiang.rxfiflibrary2.utils.LogUtil;
 import com.xjhsk.exampad.R;
-import com.xjhsk.exampad.api.Constants;
 import com.xjhsk.exampad.app.AppContext;
 import com.xjhsk.exampad.base.RootActivity;
 import com.xjhsk.exampad.model.bean.UserData;
-import com.xjhsk.exampad.ui.login.contract.LoginContract;
-import com.xjhsk.exampad.ui.login.presenter.LoginPresenter;
+import com.xjhsk.exampad.ui.login_stand_alone.contract.LoginContract_SA;
+import com.xjhsk.exampad.ui.login_stand_alone.presenter.LoginPresenter_SA;
 import com.xjhsk.exampad.ui.testsound.activity.TestSoundActivity;
-import com.xjhsk.exampad.ui.wifi.activity.WifiListActivity;
-import com.xjhsk.exampad.ui.wifi.contract.WifiListContract;
-import com.xjhsk.exampad.ui.wifi.presenter.WifiListPresenter;
-import com.xjhsk.exampad.utils.Sha1Util;
 import com.xjhsk.exampad.widget.login.LoginUserInfoView;
 import com.zhy.autolayout.AutoLinearLayout;
 
@@ -39,16 +28,15 @@ import butterknife.OnClick;
 
 /**
  * 登陆模块
- * 登陆模块
  * 主要功能为：
  * 1.登陆账号
  * 2.随机下载试卷，解压Zip操作(不在这里下载了 修改到 在试音的地方)
  * 3.登陆成功后 会连接socket 等待统一做题
  *
  */
-public class LoginActivity extends RootActivity<LoginPresenter> implements LoginContract.View{
+public class LoginActivity_SA extends RootActivity<LoginPresenter_SA> implements LoginContract_SA.View{
 
-    private static final String TAG = LoginActivity.class.getSimpleName();
+    private static final String TAG = LoginActivity_SA.class.getSimpleName();
 
     //登陆界面
     @BindView(R.id.login_layout)
@@ -115,18 +103,22 @@ public class LoginActivity extends RootActivity<LoginPresenter> implements Login
         LogUtil.debug(TAG,"点击登陆按钮");
         String username = exam_code_tv.getText().toString();
 
-        if(username.equals("请输入考号") || username.length() < 3 || username.length() > 10)
-        {
-            ToastUtils.showShortToast("请输入正确的考号");
-            LogUtil.debug(TAG,"输入的考号不正确");
-            return;
-        }
+//        if(username.equals("请输入考号") || username.length() < 3 || username.length() > 10)
+//        {
+//            ToastUtils.showShortToast("请输入正确的考号");
+//            LogUtil.debug(TAG,"输入的考号不正确");
+//            return;
+//        }
 
-        String time_mills = String.valueOf(TimeUtils.getNowTimeMills());
-        String key = Sha1Util.getSha1(time_mills+ Constants.KEY);
+//        String time_mills = String.valueOf(TimeUtils.getNowTimeMills());
+//        String key = Sha1Util.getSha1(time_mills+ Constants.KEY);
+//
+//        LogUtil.debug(TAG,"请求登陆  用户名 "+ username+" ip "+AppContext.getInstance().getIp());
+//        mPresenter.login(username, AppContext.getInstance().getIp(),key,time_mills);
 
-        LogUtil.debug(TAG,"请求登陆  用户名 "+ username+" ip "+AppContext.getInstance().getIp());
-        mPresenter.login(username, AppContext.getInstance().getIp(),key,time_mills);
+        UserData userData = new UserData();
+        AppContext.getInstance().saveUserInfo(userData);
+        loginSuccess(userData);
 
     }
 
@@ -235,11 +227,14 @@ public class LoginActivity extends RootActivity<LoginPresenter> implements Login
 
     @Override
     public void loginCancel() {
-        LogUtil.debug(TAG,"点击取消登陆按钮 ");
-        String time_mills = String.valueOf(TimeUtils.getNowTimeMills());
-        String key = Sha1Util.getSha1(time_mills+ Constants.KEY);
 
-        mPresenter.logout(exam_code_tv.getText().toString(), AppContext.getInstance().getIp(),key,time_mills);
+        logoutSuccess();
+
+//        LogUtil.debug(TAG,"点击取消登陆按钮 ");
+//        String time_mills = String.valueOf(TimeUtils.getNowTimeMills());
+//        String key = Sha1Util.getSha1(time_mills+ Constants.KEY);
+//
+//        mPresenter.logout(exam_code_tv.getText().toString(), AppContext.getInstance().getIp(),key,time_mills);
     }
 
     //************************************************************************************************//
@@ -316,7 +311,7 @@ public class LoginActivity extends RootActivity<LoginPresenter> implements Login
 
     @Override
     public void goReadyLogin() {
-        startActivity(ReadyLoginActivity.newInstance(this));
+        startActivity(ReadyLoginActivity_SA.newInstance(this));
         finish();
     }
 
@@ -326,7 +321,7 @@ public class LoginActivity extends RootActivity<LoginPresenter> implements Login
     }
 
     public static Intent newInstance(Context context) {
-        Intent intent = new Intent(context, LoginActivity.class);
+        Intent intent = new Intent(context, LoginActivity_SA.class);
         return intent;
     }
 }

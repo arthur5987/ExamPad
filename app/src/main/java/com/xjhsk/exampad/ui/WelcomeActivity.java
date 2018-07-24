@@ -83,8 +83,8 @@ public class WelcomeActivity extends SimpleActivity {
                 //打开选择wifi界面
 //                startActivity(WifiListActivity.newInstance(getBaseContext()));
                 startActivity(WifiDefaultActivity.newInstance(getBaseContext()));
-//                startActivity(ReadyLoginActivity.newInstance(getBaseContext()));
-//                startActivity(LoginActivity.newInstance(getBaseContext()));
+//                startActivity(ReadyLoginActivity_StandAlone.newInstance(getBaseContext()));
+//                startActivity(LoginActivity_StandAlone.newInstance(getBaseContext()));
 //                startActivity(TestSoundActivity.newInstance(getBaseContext()));
                 finish();
             }

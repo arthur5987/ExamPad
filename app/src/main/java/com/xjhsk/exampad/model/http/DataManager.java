@@ -57,8 +57,8 @@ public class DataManager implements HttpHelper, PreferencesHelper {
     }
 
     @Override
-    public Flowable<HttpResponse<String>> uploadExam(RequestBody timestamp, RequestBody key, RequestBody examNo, RequestBody fileName,RequestBody md5, MultipartBody.Part fileData) {
-        return mHttpHelper.uploadExam(timestamp, key, examNo, fileName,md5, fileData);
+    public Flowable<HttpResponse<String>> uploadExam(RequestBody timestamp, RequestBody key, RequestBody examNo, RequestBody fileName,RequestBody md5,RequestBody answerStr, MultipartBody.Part fileData) {
+        return mHttpHelper.uploadExam(timestamp, key, examNo, fileName,md5,answerStr, fileData);
     }
 
     @Override

@@ -29,6 +29,8 @@ public class PaperSectionHeader implements Parcelable {
     private int showType;
     private String questionNo;
     private String questionId;
+    private String realAnswer;
+    private int questionScore;
 
     public String getPagerType() {
         return pagerType;
@@ -94,6 +96,22 @@ public class PaperSectionHeader implements Parcelable {
         this.questionId = questionId;
     }
 
+    public String getRealAnswer() {
+        return realAnswer;
+    }
+
+    public void setRealAnswer(String realAnswer) {
+        this.realAnswer = realAnswer;
+    }
+
+    public int getQuestionScore() {
+        return questionScore;
+    }
+
+    public void setQuestionScore(int questionScore) {
+        this.questionScore = questionScore;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -109,6 +127,8 @@ public class PaperSectionHeader implements Parcelable {
         dest.writeInt(this.showType);
         dest.writeString(this.questionNo);
         dest.writeString(this.questionId);
+        dest.writeString(this.realAnswer);
+        dest.writeInt(this.questionScore);
     }
 
     public PaperSectionHeader() {
@@ -123,6 +143,8 @@ public class PaperSectionHeader implements Parcelable {
         this.showType = in.readInt();
         this.questionNo = in.readString();
         this.questionId = in.readString();
+        this.realAnswer = in.readString();
+        this.questionScore = in.readInt();
     }
 
     public static final Parcelable.Creator<PaperSectionHeader> CREATOR = new Parcelable.Creator<PaperSectionHeader>() {

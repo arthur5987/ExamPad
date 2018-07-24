@@ -14,12 +14,14 @@ import com.fifedu.record.media.record.AudioPlayManager;
 import com.fifedu.record.media.record.AudioplayInterface;
 import com.weidingqiang.rxfiflibrary2.utils.LogUtil;
 import com.xjhsk.exampad.R;
+import com.xjhsk.exampad.app.AppContext;
 import com.xjhsk.exampad.base.RootFragment;
 import com.xjhsk.exampad.base.RxBus;
 import com.xjhsk.exampad.model.bean.AnswerVO;
 import com.xjhsk.exampad.model.bean.PaperAction;
 import com.xjhsk.exampad.model.bean.PaperActionOption;
 import com.xjhsk.exampad.model.bean.PaperSection;
+import com.xjhsk.exampad.model.bean.StringAnswer;
 import com.xjhsk.exampad.model.event.ActionEvent;
 import com.xjhsk.exampad.ui.exam.adapter.ESelectSortAdapter;
 import com.xjhsk.exampad.ui.exam.adapter.ESelectTxtAdapter;
@@ -100,6 +102,17 @@ public class ESortFragment extends RootFragment<ESortPresenter> implements ESort
 
         if(allActionVOs.size() == 0)
         {
+            // ******************** //
+            //录音的地方开始答题，开始拼字符串
+            StringAnswer data = AppContext.getInstance().getStringAnswer();
+            if (data.getStuAnswer() == null){
+                data.setStuAnswer("");
+            }
+            String stuAnswer = data.getStuAnswer() + answer +"#";
+            data.setStuAnswer(stuAnswer);
+            AppContext.getInstance().saveStringAnswer(data);
+            // ******************** //
+
             //做题的最后一个fragment 需要上传相关数据
             //发送事件下一页
             RxBus.getDefault().post(new ActionEvent(ActionEvent.NEXT,new AnswerVO(answer,paperSection.getPaperSectionHeader().getQuestionNo())));

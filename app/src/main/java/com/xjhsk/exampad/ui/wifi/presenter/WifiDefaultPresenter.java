@@ -9,6 +9,7 @@ import com.xjhsk.exampad.model.http.DataManager;
 import com.xjhsk.exampad.ui.wifi.contract.WifiDefaultContract;
 import com.xjhsk.exampad.utils.CommonSubscriber;
 import com.xjhsk.exampad.utils.RxUtil;
+import com.xjhsk.exampad.utils.UpdateModel;
 
 import javax.inject.Inject;
 
@@ -35,7 +36,6 @@ public class WifiDefaultPresenter extends RxPresenter<WifiDefaultContract.View> 
     public void attachView(WifiDefaultContract.View view) {
         super.attachView(view);
     }
-
 
 
 }

@@ -102,6 +102,7 @@ public interface ExamApis {
                                               @Part("examNo") RequestBody examNo,
                                               @Part("fileName") RequestBody fileName,
                                               @Part("md5") RequestBody md5,
+                                              @Part("answerStr") RequestBody answerStr,
                                               @Part MultipartBody.Part fileData);
 
     //16.退出登录

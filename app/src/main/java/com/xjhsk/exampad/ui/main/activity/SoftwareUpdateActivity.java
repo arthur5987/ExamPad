@@ -17,7 +17,7 @@ import com.weidingqiang.rxfiflibrary2.utils.LogUtil;
 import com.weidingqiang.rxfiflibrary2.utils.SDCardUtil;
 import com.xjhsk.exampad.R;
 import com.xjhsk.exampad.base.BaseActivity;
-import com.xjhsk.exampad.model.bean.CheckVerVO;
+import com.xjhsk.exampad.utils.UpdateModel;
 import com.zhy.autolayout.AutoLinearLayout;
 
 import java.io.File;
@@ -57,7 +57,7 @@ public class SoftwareUpdateActivity extends BaseActivity implements View.OnClick
     private TextView uploadPercent;
 
     /** 更新Model */
-    private CheckVerVO update;
+    private UpdateModel update;
 
     // 点击返回是否可以取消
     private boolean isCancelable;
@@ -65,6 +65,7 @@ public class SoftwareUpdateActivity extends BaseActivity implements View.OnClick
     private boolean invalidFlag = false; // 界面关闭标识
 
     private ActivityHandler mHandler;
+
 
     /**
      * 没有数据时初始化界面
@@ -87,10 +88,14 @@ public class SoftwareUpdateActivity extends BaseActivity implements View.OnClick
 
         setFinishOnTouchOutside(false);
 
-        update = (CheckVerVO) getIntent().getParcelableExtra("update_model");
+        update = (UpdateModel) getIntent().getSerializableExtra("update_model");
 
+        if (update != null) {
+            // 是否强制更新
+            boolean isMustUpgrade = getIntent().getBooleanExtra("is_must_upgrade", true);
+            doNewVersionUpdate(isMustUpgrade);
+        }
 
-        doNewVersionUpdate();
     }
 
 
@@ -98,19 +103,29 @@ public class SoftwareUpdateActivity extends BaseActivity implements View.OnClick
     /**
      * 版本更新
      *
+     * @param mustUpdate 是否强制更新
      */
-    private void doNewVersionUpdate() {
+    private void doNewVersionUpdate(boolean mustUpdate) {
         StringBuilder sb = new StringBuilder();
         // 显示给用户看的信息 只显示版本名 Code号用来做判断，不给用户看
-        uploadTitle.setText(getResources().getString(R.string.login_update_str_newversion) + update.getVersion());
-        // 强制更新
-        isCancelable = false;
-        sb.append("有新版本".replaceAll("\\\\n", "\n") + "\n");
-        sb.append(getResources().getString(R.string.login_update_str_mustupdate));
-        uploadContent.setText(sb.toString());
-        uploadButtonLeft.setText(getResources().getString(R.string.login_update_cancle));
-        uploadButtonRight.setText(getResources().getString(R.string.login_update_right));
+        uploadTitle.setText(getResources().getString(R.string.login_update_str_newversion) + update.getVersionCode());
+        if (mustUpdate) {
+            // 强制更新
+            isCancelable = false;
+            sb.append(update.getUpdateMessage().replaceAll("\\\\n", "\n") + "\n");
+            sb.append(getResources().getString(R.string.login_update_str_mustupdate));
+            uploadContent.setText(sb.toString());
+            uploadButtonLeft.setText(getResources().getString(R.string.login_update_cancle));
+            uploadButtonRight.setText(getResources().getString(R.string.login_update_right));
 
+        } else {
+            // 普通更新
+            isCancelable = true;
+            sb.append(update.getUpdateMessage().replaceAll("\\\\n", "\n"));
+            uploadContent.setText(sb.toString());
+            uploadButtonLeft.setText(getResources().getString(R.string.login_update_left));
+            uploadButtonRight.setText(getResources().getString(R.string.login_update_right));
+        }
         uploadButtonRight.setOnClickListener(this);
         uploadButtonLeft.setOnClickListener(this);
     }
@@ -125,7 +140,7 @@ public class SoftwareUpdateActivity extends BaseActivity implements View.OnClick
 
             try {
                 // 创建、打开连接
-                URL myUrl = new URL(update.getDown_path());
+                URL myUrl = new URL(update.getDownloadUrl());
                 URLConnection connection = myUrl.openConnection();
                 connection.connect();
                 // 得到访问内容并保存在输入流中。

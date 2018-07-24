@@ -50,25 +50,30 @@
             android:enabled="true"
             android:exported="true" />
 
-        <!-- 登陆 -->
+        <!-- 登陆 联网版-->
         <activity
             android:name=".ui.login.activity.LoginActivity"
             android:screenOrientation="landscape" />
 
-        <!-- 等待登陆 -->
+        <!-- 登陆 单机版-->
+        <activity
+            android:name=".ui.login_stand_alone.activity.LoginActivity_SA"
+            android:screenOrientation="landscape" />
+
+        <!-- 等待登陆 联网版-->
         <activity
             android:name=".ui.login.activity.ReadyLoginActivity"
+            android:screenOrientation="landscape" />
+
+        <!-- 等待登陆  单机版-->
+        <activity
+            android:name=".ui.login_stand_alone.activity.ReadyLoginActivity_SA"
             android:screenOrientation="landscape" />
 
         <!-- 试音 -->
         <activity
             android:name=".ui.testsound.activity.TestSoundActivity"
             android:screenOrientation="landscape" />
-
-        <activity
-            android:name=".ui.main.activity.SoftwareUpdateActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/DialogUtil" />
 
         <!--演示版本wifi设置-->
         <activity

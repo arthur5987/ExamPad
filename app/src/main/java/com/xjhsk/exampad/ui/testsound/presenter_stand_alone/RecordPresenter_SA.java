@@ -1,34 +1,24 @@
-package com.xjhsk.exampad.ui.testsound.presenter;
+package com.xjhsk.exampad.ui.testsound.presenter_stand_alone;
 
-import android.util.Log;
-
-import com.blankj.utilcode.util.TimeUtils;
 import com.weidingqiang.rxfiflibrary2.utils.LogUtil;
 import com.xjhsk.exampad.api.Constants;
 import com.xjhsk.exampad.app.AppContext;
 import com.xjhsk.exampad.base.RxBus;
 import com.xjhsk.exampad.base.RxPresenter;
-import com.xjhsk.exampad.model.bean.PaperSection;
-import com.xjhsk.exampad.model.bean.PaperSectionHeader;
 import com.xjhsk.exampad.model.bean.PaperVO;
 import com.xjhsk.exampad.model.bean.StringAnswer;
 import com.xjhsk.exampad.model.event.ActionEvent;
 import com.xjhsk.exampad.model.event.SocketEvent;
 import com.xjhsk.exampad.model.http.DataManager;
-import com.xjhsk.exampad.model.http.response.HttpResponse;
 import com.xjhsk.exampad.ui.testsound.contract.RecordContract;
-import com.xjhsk.exampad.ui.testsound.contract.TestSoundContract;
+import com.xjhsk.exampad.ui.testsound.presenter.RecordPresenter;
 import com.xjhsk.exampad.utils.CommonSubscriber;
 import com.xjhsk.exampad.utils.JsonUtils;
 import com.xjhsk.exampad.utils.RxUtil;
-import com.xjhsk.exampad.utils.Sha1Util;
 
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -46,14 +36,14 @@ import io.reactivex.schedulers.Schedulers;
  * 邮箱：dqwei@iflytek.com
  */
 
-public class RecordPresenter extends RxPresenter<RecordContract.View> implements RecordContract.Presenter {
+public class RecordPresenter_SA extends RxPresenter<RecordContract.View> implements RecordContract.Presenter {
 
-    protected static final String TAG = RecordPresenter.class.getSimpleName();
+    protected static final String TAG = RecordPresenter_SA.class.getSimpleName();
 
     private DataManager mDataManager;
 
     @Inject
-    public RecordPresenter(DataManager mDataManager) {
+    public RecordPresenter_SA(DataManager mDataManager) {
         this.mDataManager = mDataManager;
     }
 
@@ -167,6 +157,7 @@ public class RecordPresenter extends RxPresenter<RecordContract.View> implements
                         data.setQuestionScore(questionScore);
                         AppContext.getInstance().saveStringAnswer(data);
                         // ****************** //
+
                         mView.analyzeSuccess(paperVO);
                     }
 
@@ -186,60 +177,63 @@ public class RecordPresenter extends RxPresenter<RecordContract.View> implements
     @Override
     public void setStatus(String status) {
 
-        String time_mills = String.valueOf(TimeUtils.getNowTimeMills());
-        String key = Sha1Util.getSha1(time_mills+ Constants.KEY);
-
-        addSubscribe(mDataManager.setStatus(AppContext.getInstance().getUserVO().getExam_no(), status, key, time_mills)
-                        .compose(RxUtil.<HttpResponse<String>>rxSchedulerHelper())
-                        .compose(RxUtil.<String>handleTestResult())
-                        .subscribeWith(
-                                new CommonSubscriber<String>(mView) {
-                                    @Override
-                                    public void onNext(String data) {
-
-                                        mView.setStatusSuccess();
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-//                                        mView.responceError(e.getMessage());
-                                    }
-
-                                    @Override
-                                    public void onComplete() {
-                                        super.onComplete();
-                                    }
-                                }
-                        )
-        );
+//        String time_mills = String.valueOf(TimeUtils.getNowTimeMills());
+//        String key = Sha1Util.getSha1(time_mills+ Constants.KEY);
+//
+//        addSubscribe(mDataManager.setStatus(AppContext.getInstance().getUserVO().getExam_no(), status, key, time_mills)
+//                        .compose(RxUtil.<HttpResponse<String>>rxSchedulerHelper())
+//                        .compose(RxUtil.<String>handleTestResult())
+//                        .subscribeWith(
+//                                new CommonSubscriber<String>(mView) {
+//                                    @Override
+//                                    public void onNext(String data) {
+//
+//                                        mView.setStatusSuccess();
+//                                    }
+//
+//                                    @Override
+//                                    public void onError(Throwable e) {
+////                                        mView.responceError(e.getMessage());
+//                                    }
+//
+//                                    @Override
+//                                    public void onComplete() {
+//                                        super.onComplete();
+//                                    }
+//                                }
+//                        )
+//        );
     }
 
     @Override
     public void startExam(String status) {
-        String time_mills = String.valueOf(TimeUtils.getNowTimeMills());
-        String key = Sha1Util.getSha1(time_mills+ Constants.KEY);
 
-        addSubscribe(mDataManager.getStatus(AppContext.getInstance().getUserVO().getExam_no(), key, status, time_mills)
-                .compose(RxUtil.<HttpResponse<String>>rxSchedulerHelper())
-                .compose(RxUtil.<String>handleTestResult())
-                .subscribeWith(
-                        new CommonSubscriber<String>(mView) {
-                            @Override
-                            public void onNext(String data) {
-                                mView.startExamSuccess();
-                            }
+        mView.startExamSuccess();
 
-                            @Override
-                            public void onError(Throwable e) {
-                                mView.responceError(e.getMessage());
-                            }
-
-                            @Override
-                            public void onComplete() {
-                                super.onComplete();
-                            }
-                        }
-                )
-        );
+//        String time_mills = String.valueOf(TimeUtils.getNowTimeMills());
+//        String key = Sha1Util.getSha1(time_mills+ Constants.KEY);
+//
+//        addSubscribe(mDataManager.getStatus(AppContext.getInstance().getUserVO().getExam_no(), key, status, time_mills)
+//                .compose(RxUtil.<HttpResponse<String>>rxSchedulerHelper())
+//                .compose(RxUtil.<String>handleTestResult())
+//                .subscribeWith(
+//                        new CommonSubscriber<String>(mView) {
+//                            @Override
+//                            public void onNext(String data) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onError(Throwable e) {
+//                                mView.responceError(e.getMessage());
+//                            }
+//
+//                            @Override
+//                            public void onComplete() {
+//                                super.onComplete();
+//                            }
+//                        }
+//                )
+//        );
     }
 }

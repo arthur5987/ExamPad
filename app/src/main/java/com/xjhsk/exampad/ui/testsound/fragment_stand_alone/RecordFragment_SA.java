@@ -1,4 +1,4 @@
-package com.xjhsk.exampad.ui.testsound.fragment;
+package com.xjhsk.exampad.ui.testsound.fragment_stand_alone;
 
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
@@ -31,19 +31,16 @@ import com.xjhsk.exampad.base.RootFragment;
 import com.xjhsk.exampad.base.RxBus;
 import com.xjhsk.exampad.model.bean.PaperVO;
 import com.xjhsk.exampad.model.event.CloseEvent;
-import com.xjhsk.exampad.model.http.download.ApiHttpManager;
-import com.xjhsk.exampad.model.http.download.DownloadFileInterface;
+import com.xjhsk.exampad.socket.SocketManager;
 import com.xjhsk.exampad.ui.main.activity.MainActivity;
 import com.xjhsk.exampad.ui.testsound.contract.RecordContract;
 import com.xjhsk.exampad.ui.testsound.presenter.RecordPresenter;
-import com.xjhsk.exampad.utils.CompressUtils;
+import com.xjhsk.exampad.ui.testsound.presenter_stand_alone.RecordPresenter_SA;
 import com.xjhsk.exampad.widget.ProgressImageView;
 import com.xjhsk.exampad.widget.WaveView;
 import com.xjhsk.exampad.widget.topbar.XTopBar;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
-
-import net.lingala.zip4j.exception.ZipException;
 
 import java.io.File;
 import java.io.IOException;
@@ -80,7 +77,7 @@ import butterknife.OnClick;
  13.播放STEnd
  */
 
-public class RecordFragment extends RootFragment<RecordPresenter> implements RecordContract.View,IRecorderListener {
+public class RecordFragment_SA extends RootFragment<RecordPresenter_SA> implements RecordContract.View,IRecorderListener {
 
     private static final int MSG_START_RECORD = 10;
     private static final int MSG_STOP_RECORD = 11;
@@ -103,7 +100,7 @@ public class RecordFragment extends RootFragment<RecordPresenter> implements Rec
     private static final String STConfirm = "STConfirm";
     private static final String STEnd = "STEnd";
 
-    private static final String TAG = RecordFragment.class.getSimpleName();
+    private static final String TAG = RecordFragment_SA.class.getSimpleName();
 
     private double MAX_VOL = 20000;
 
@@ -191,23 +188,19 @@ public class RecordFragment extends RootFragment<RecordPresenter> implements Rec
         zipFile = AppContext.getInstance().getUserVO().getPaper_name();//"xhk_1_001.zip";//xhk_2_001.zip    xhk_3_001.zip
 //        zipFile = "xhk_1_001.zip";//xhk_2_001.zip    xhk_3_001.zip
 
+
         //*********************************************//  为去掉试音修改的部分
-        //准备开始试音
-        LogUtil.debug(TAG,"发送准备开始试音请求 100");
-        mPresenter.setStatus("100");
-
-
-//            1.进入后播放RTStart0
-        playTipSound(STStart0);
-
-//            record_layout.setVisibility(View.GONE);   // 暂时去掉试音的步骤
-//            wait_layout.setVisibility(View.VISIBLE);
-//            iv_progress.start();
+//        //准备开始试音
+//        LogUtil.debug(TAG,"发送准备开始试音请求 100");
+//        mPresenter.setStatus("100");
 //
-//            //开启下载模式
-//            downloadZip(zipFile);
-        //*********************************************//
+//        //1.进入后播放RTStart0
+//        playTipSound(STStart0);
 
+        playTipSound(STEnd);                    // 暂时去掉试音的步骤（只修改了这一段）
+        clear_layout.setVisibility(View.INVISIBLE);
+
+        //*********************************************//
     }
 
     private void playTipSound(String current){
@@ -369,10 +362,10 @@ public class RecordFragment extends RootFragment<RecordPresenter> implements Rec
         mPresenter.setStatus("111");
 
         //获取开考指令
-//        mPresenter.startExam("60"); //  去掉socket 注掉的东西
+        mPresenter.startExam("60");
 
-        startActivity(MainActivity.newInstance(getContext(),paperVO)); // 直接开始做题
-        RxBus.getDefault().post(new CloseEvent(CloseEvent.CLOSE_TEST_SOUND));
+//        startActivity(MainActivity.newInstance(getContext(),paperVO));
+//        RxBus.getDefault().post(new CloseEvent(CloseEvent.CLOSE_TEST_SOUND));
     }
 
     @Override
@@ -384,9 +377,9 @@ public class RecordFragment extends RootFragment<RecordPresenter> implements Rec
     //录音部分
 
     public static class RecordHandler extends Handler{
-        private RecordFragment mForm;
+        private RecordFragment_SA mForm;
 
-        public RecordHandler(RecordFragment activity) {
+        public RecordHandler(RecordFragment_SA activity) {
             mForm = activity;
         }
         @Override
@@ -671,47 +664,63 @@ public class RecordFragment extends RootFragment<RecordPresenter> implements Rec
         //http://192.168.0.6:8080/
 
         //        String url = "http://"+AppContext.getInstance().getHostIp()+":8083/xhk/down/"+zipFileName;
-        String url = "http://"+AppContext.getInstance().getHostIp()+":8083/xhk/res/paper/"+zipFileName;
+        String url = "http://"+ AppContext.getInstance().getHostIp()+":8083/xhk/res/paper/"+zipFileName;
+
 //        String url = "http://10.4.67.193/"+zipFileName;
 //        http://{{host}}/down/xhk_1_001.zip
 
-            //1.开始下载文件
-            ApiHttpManager.getManager().downloadAudioFile(url, filePath, new DownloadFileInterface() {
+        try {
+            FileUtils.writeFileFromIS(filePath,am.open("xhk_1_001.zip"),true);
 
-                @Override
-                public void onSuccess(String filePath) {
-                    //2.文件下载成功
-                    //2.1开始解压文件
-                    //unZip(filePath,AppConstants.UNFILE_DOWNLOAD_PATH);
+            wait_tv.setText("检查试卷（解压)..");
 
-                    wait_tv.setText("检查试卷（解压)..");
+            UnZipAsyncTask unZipAsyncTask = new UnZipAsyncTask(filePath);
+            unZipAsyncTask.execute();
 
-                    UnZipAsyncTask unZipAsyncTask = new UnZipAsyncTask(filePath);
-                    unZipAsyncTask.execute();
-                }
+        }catch (IOException ex){
 
-                @Override
-                public void onFailure(String des) {
+        }
 
-                    if(errorConnectNum > 4){
-                        //3.文件下载失败
-                        Toast.makeText(getContext(), "网络连接超时", Toast.LENGTH_LONG).show();
+        //复制文件
+//        FileUtils.copyFile(,filePath);
 
-                        //112 下载试卷失败
-                        mPresenter.setStatus("112");
-                    }
-                    else {
-                        downloadZip(zipFile);
-                    }
-                }
 
-                @Override
-                public void onProgress(long bytesWritten, long totalSize) {
-//                downtextview.setText("正在下载 " + bytesWritten + " / " + totalSize);
-//                arcProgress.setProgress((int) ((bytesWritten * 100) / totalSize));
-                }
-            });
-
+//        //1.开始下载文件
+//        ApiHttpManager.getManager().downloadAudioFile(url, filePath, new DownloadFileInterface() {
+//
+//            @Override
+//            public void onSuccess(String filePath) {
+//                //2.文件下载成功
+//                //2.1开始解压文件
+//                //unZip(filePath,AppConstants.UNFILE_DOWNLOAD_PATH);
+//
+//                wait_tv.setText("检查试卷（解压)..");
+//
+//                UnZipAsyncTask unZipAsyncTask = new UnZipAsyncTask(filePath);
+//                unZipAsyncTask.execute();
+//            }
+//
+//            @Override
+//            public void onFailure(String des) {
+//
+//                if(errorConnectNum > 4){
+//                    //3.文件下载失败
+//                    Toast.makeText(getContext(), "网络连接超时", Toast.LENGTH_LONG).show();
+//
+//                    //112 下载试卷失败
+//                    mPresenter.setStatus("112");
+//                }
+//                else {
+//                    downloadZip(zipFile);
+//                }
+//            }
+//
+//            @Override
+//            public void onProgress(long bytesWritten, long totalSize) {
+////                downtextview.setText("正在下载 " + bytesWritten + " / " + totalSize);
+////                arcProgress.setProgress((int) ((bytesWritten * 100) / totalSize));
+//            }
+//        });
     }
 
     private class UnZipAsyncTask extends AsyncTask<Void, Integer, Void> {
@@ -737,8 +746,9 @@ public class RecordFragment extends RootFragment<RecordPresenter> implements Rec
 //            decryptUnzip(filePath, AppConstants.FILE_DOWNLOAD_PATH+zipFile.split("\\.")[0]);
 
             try {
-                CompressUtils.unZip(new File(filePath),AppConstants.FILE_DOWNLOAD_PATH+zipFile.split("\\.")[0],CompressUtils.KEY_ZIP_PAPER);
-            }catch (ZipException e){
+//                CompressUtils.unZip(new File(filePath),AppConstants.FILE_DOWNLOAD_PATH+zipFile.split("\\.")[0],CompressUtils.KEY_ZIP_PAPER);
+                ZipUtils.unzipFile(filePath, AppConstants.FILE_DOWNLOAD_PATH+zipFile.split("\\.")[0]);
+            }catch (Exception e){
                 LogUtil.debug(TAG,"解压zip失败");
             }
 
@@ -884,7 +894,7 @@ public class RecordFragment extends RootFragment<RecordPresenter> implements Rec
     public void responceError(String message) {
         ToastUtils.showShortToast(message);
         //发送socket指令
-//        AppContext.getInstance().getSocketManager().sendMessage(SocketManager.ReadyExam); //  去掉socket 注掉的东西
+        AppContext.getInstance().getSocketManager().sendMessage(SocketManager.ReadyExam);
     }
 
     @Override
@@ -906,10 +916,10 @@ public class RecordFragment extends RootFragment<RecordPresenter> implements Rec
         getFragmentComponent().inject(this);
     }
 
-    public static RecordFragment newInstance() {
+    public static RecordFragment_SA newInstance() {
         Bundle args = new Bundle();
 
-        RecordFragment fragment = new RecordFragment();
+        RecordFragment_SA fragment = new RecordFragment_SA();
         fragment.setArguments(args);
         return fragment;
     }

@@ -12,9 +12,12 @@ import com.xjhsk.exampad.ui.exam.fragment.ESelectPicFragment;
 import com.xjhsk.exampad.ui.exam.fragment.ESelectTxtFragment;
 import com.xjhsk.exampad.ui.exam.fragment.ESortFragment;
 import com.xjhsk.exampad.ui.exam.fragment.EWelcomeFragment;
+import com.xjhsk.exampad.ui.exam.fragment_stand_alone.EEndFragment_SA;
 import com.xjhsk.exampad.ui.main.fragment.ExamFragment;
 import com.xjhsk.exampad.ui.testsound.fragment.RecordFragment;
 import com.xjhsk.exampad.ui.testsound.fragment.UserFragment;
+import com.xjhsk.exampad.ui.testsound.fragment_stand_alone.RecordFragment_SA;
+import com.xjhsk.exampad.ui.testsound.fragment_stand_alone.UserFragment_SA;
 
 import dagger.Component;
 
@@ -30,7 +33,11 @@ public interface FragmentComponent {
 
     void inject(UserFragment userFragment);
 
+    void inject(UserFragment_SA userFragmentSA);
+
     void inject(RecordFragment recordFragment);
+
+    void inject(RecordFragment_SA recordFragmentSA);
 
     void inject(ExamFragment examFragment);
 
@@ -50,5 +57,7 @@ public interface FragmentComponent {
     void inject(ESortFragment eSortFragment);
 
     void inject(EEndFragment eEndFragment);
+
+    void inject(EEndFragment_SA eEndFragment);
 
 }

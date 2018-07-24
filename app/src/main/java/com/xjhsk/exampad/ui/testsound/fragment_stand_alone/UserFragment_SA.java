@@ -1,4 +1,4 @@
-package com.xjhsk.exampad.ui.testsound.fragment;
+package com.xjhsk.exampad.ui.testsound.fragment_stand_alone;
 
 import android.content.Context;
 import android.media.AudioManager;
@@ -26,9 +26,9 @@ import butterknife.BindView;
  * 邮箱：dqwei@iflytek.com
  */
 
-public class UserFragment extends RootFragment<UserFragmentPresenter> implements UserFragmentContract.View {
+public class UserFragment_SA extends RootFragment<UserFragmentPresenter> implements UserFragmentContract.View {
 
-    private static final String TAG = UserFragment.class.getSimpleName();
+    private static final String TAG = UserFragment_SA.class.getSimpleName();
 
     @BindView(R.id.head_img)
     ImageView head_img;
@@ -70,10 +70,9 @@ public class UserFragment extends RootFragment<UserFragmentPresenter> implements
 //                .into(head_img);
 
         Picasso.with(getContext())
-                .load(getImageUrlForPicasso())
+                .load(R.drawable.head_icon_girl)
                 .transform(new CircleTransform(getContext()))
                 .into(head_img);
-
 
         user_name_tv.setText(userData.getExam_stu_name().replace("·","·\n"));
 
@@ -184,8 +183,8 @@ public class UserFragment extends RootFragment<UserFragmentPresenter> implements
     }
 
     public String getImageUrlForPicasso() {
-        return "encrypt_"+"http://"+AppContext.getInstance().getHostIp()+":8083/xhk/res/examstu/"
-                +AppContext.getInstance().getUserVO().getExam_batch()+"/"+AppContext.getInstance().getUserVO().getExam_no()+".jpg";
+        return "encrypt_"+"http://"+ AppContext.getInstance().getHostIp()+":8083/xhk/res/examstu/"
+                + AppContext.getInstance().getUserVO().getExam_batch()+"/"+ AppContext.getInstance().getUserVO().getExam_no()+".jpg";
     }
 
     @Override
@@ -194,10 +193,10 @@ public class UserFragment extends RootFragment<UserFragmentPresenter> implements
     }
 
 
-    public static UserFragment newInstance() {
+    public static UserFragment_SA newInstance() {
         Bundle args = new Bundle();
 
-        UserFragment fragment = new UserFragment();
+        UserFragment_SA fragment = new UserFragment_SA();
         fragment.setArguments(args);
         return fragment;
     }

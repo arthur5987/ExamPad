@@ -2,24 +2,20 @@ package com.xjhsk.exampad.ui.main.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.KeyEvent;
 
 import com.xjhsk.exampad.R;
-import com.xjhsk.exampad.base.RootActivity;
 import com.xjhsk.exampad.base.RootFragmentActivity;
 import com.xjhsk.exampad.model.bean.PaperVO;
 import com.xjhsk.exampad.ui.login.activity.LoginActivity;
 import com.xjhsk.exampad.ui.login.activity.ReadyLoginActivity;
-import com.xjhsk.exampad.ui.login.contract.LoginContract;
-import com.xjhsk.exampad.ui.login.presenter.LoginPresenter;
 import com.xjhsk.exampad.ui.main.contract.MainContract;
 import com.xjhsk.exampad.ui.main.fragment.ExamFragment;
 import com.xjhsk.exampad.ui.main.presenter.MainPresenter;
-import com.xjhsk.exampad.ui.testsound.activity.TestSoundActivity;
 import com.xjhsk.exampad.ui.testsound.fragment.RecordFragment;
 import com.xjhsk.exampad.ui.testsound.fragment.UserFragment;
+import com.xjhsk.exampad.ui.testsound.fragment_stand_alone.RecordFragment_SA;
+import com.xjhsk.exampad.ui.testsound.fragment_stand_alone.UserFragment_SA;
 
 public class MainActivity extends RootFragmentActivity<MainPresenter> implements MainContract.View {
 
@@ -33,8 +29,14 @@ public class MainActivity extends RootFragmentActivity<MainPresenter> implements
         Intent intent = getIntent();
         paperVO = intent.getParcelableExtra("paperVO");
 
-        loadRootFragment(R.id.user_container, UserFragment.newInstance());
-        loadRootFragment(R.id.exam_container, ExamFragment.newInstance(paperVO));
+        if (isNetWorking()){
+            loadRootFragment(R.id.user_container, UserFragment.newInstance());
+            loadRootFragment(R.id.exam_container, ExamFragment.newInstance(paperVO));
+        }else {
+            loadRootFragment(R.id.user_container, UserFragment_SA.newInstance());
+            loadRootFragment(R.id.exam_container, ExamFragment.newInstance(paperVO));
+        }
+
     }
 
     @Override

@@ -3,11 +3,6 @@ package com.xjhsk.exampad.ui.wifi.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.ScanResult;
-import android.net.wifi.WifiConfiguration;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,15 +20,12 @@ import com.xjhsk.exampad.app.AppContext;
 import com.xjhsk.exampad.base.RootActivity;
 import com.xjhsk.exampad.model.bean.WifiVO;
 import com.xjhsk.exampad.ui.login.activity.ReadyLoginActivity;
-import com.xjhsk.exampad.ui.wifi.adapter.WifiListAdapter;
+import com.xjhsk.exampad.ui.login_stand_alone.activity.ReadyLoginActivity_SA;
 import com.xjhsk.exampad.ui.wifi.contract.WifiDefaultContract;
-import com.xjhsk.exampad.ui.wifi.contract.WifiListContract;
 import com.xjhsk.exampad.ui.wifi.presenter.WifiDefaultPresenter;
-import com.xjhsk.exampad.ui.wifi.presenter.WifiListPresenter;
 import com.xjhsk.exampad.utils.RxTimerUtil;
 import com.zhy.autolayout.AutoLinearLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -131,6 +123,7 @@ public class WifiDefaultActivity extends RootActivity<WifiDefaultPresenter> impl
             LogUtil.debug(TAG,"WIFI已经开启");
             List<ScanResult> scanResults = mWiFiManager.getScanResults();
             refreshData(scanResults);
+
         }
         else {
             //没打开wifi  需要手动打开
@@ -151,6 +144,7 @@ public class WifiDefaultActivity extends RootActivity<WifiDefaultPresenter> impl
 
         //刷新网络时 不显示键盘
         login_keyboard.setVisibility(View.GONE);
+
     }
 
     @OnClick(R.id.sure_img)
@@ -162,11 +156,28 @@ public class WifiDefaultActivity extends RootActivity<WifiDefaultPresenter> impl
             String host = ip_tv.getText().toString();
             AppContext.getInstance().setHostIp(host);
 
-            RetrofitUrlManager.getInstance().putDomain("xhk", "http://"+host+":8083/xhk/");
+            //*****************************//
+            if ("1.1.1.1".equals(host)){  // 只有输入这个ip，才加载单机版
+                AppContext.getInstance().setNetWorking(false);
+                RetrofitUrlManager.getInstance().putDomain("xhk", "http://"+host+":8083/xhk/");
 
-            LogUtil.debug(TAG,"IP符合规则，打开准备登陆界面");
-            startActivity(ReadyLoginActivity.newInstance(this));
-            finish();
+                LogUtil.debug(TAG,"IP符合规则，打开准备登陆界面");
+                startActivity(ReadyLoginActivity_SA.newInstance(this));
+                finish();
+            }else {
+                AppContext.getInstance().setNetWorking(true);
+                RetrofitUrlManager.getInstance().putDomain("xhk", "http://"+host+":8083/xhk/");
+
+                LogUtil.debug(TAG,"IP符合规则，打开准备登陆界面");
+                startActivity(ReadyLoginActivity.newInstance(this));
+                finish();
+            }
+            //*****************************//
+//            RetrofitUrlManager.getInstance().putDomain("xhk", "http://"+host+":8083/xhk/");
+//
+//            LogUtil.debug(TAG,"IP符合规则，打开准备登陆界面");
+//            startActivity(ReadyLoginActivity_SA.newInstance(this));
+//            finish();
         }
         else {
             LogUtil.debug(TAG,"IP格式输入错误");
@@ -465,8 +476,6 @@ public class WifiDefaultActivity extends RootActivity<WifiDefaultPresenter> impl
         Intent intent = new Intent(context, WifiDefaultActivity.class);
         return intent;
     }
-
-
 
 }
 

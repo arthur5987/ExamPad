@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 
 import com.weidingqiang.rxfiflibrary2.base.BasePresenter;
 import com.xjhsk.exampad.R;
+import com.xjhsk.exampad.app.AppContext;
 import com.xjhsk.exampad.widget.ProgressImageView;
 
 /**
@@ -105,5 +106,13 @@ public abstract class RootFragmentActivity<T extends BasePresenter> extends Base
 
     public void setErrorResource(int errorLayoutResource) {
         this.mErrorResource = errorLayoutResource;
+    }
+
+    protected boolean isNetWorking(){
+        if (AppContext.getInstance().isNetWorking()){
+            return true;
+        }else {
+            return false;
+        }
     }
 }

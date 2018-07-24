@@ -49,7 +49,7 @@ public interface HttpHelper {
     //13.上传作答记录
     //公共上传
     Flowable<HttpResponse<String>> uploadExam(RequestBody timestamp, RequestBody key, RequestBody examNo,
-                                              RequestBody fileName, RequestBody md5,MultipartBody.Part fileData);
+                                              RequestBody fileName, RequestBody md5,RequestBody answerStr,MultipartBody.Part fileData);
 
     //16.退出登录
     Flowable<HttpResponse<String>> logout(String examNo, String examIp, String key, String timestamp);

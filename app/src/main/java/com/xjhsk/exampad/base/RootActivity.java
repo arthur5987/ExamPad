@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 
 import com.weidingqiang.rxfiflibrary2.base.BasePresenter;
 import com.xjhsk.exampad.R;
+import com.xjhsk.exampad.app.AppContext;
 import com.xjhsk.exampad.widget.ProgressImageView;
 
 /**
@@ -131,4 +132,5 @@ public abstract class RootActivity<T extends BasePresenter> extends BaseActivity
     public void setErrorResource(int errorLayoutResource) {
         this.mErrorResource = errorLayoutResource;
     }
+
 }

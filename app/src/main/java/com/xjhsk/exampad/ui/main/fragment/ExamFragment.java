@@ -36,9 +36,9 @@ import com.xjhsk.exampad.ui.exam.fragment.ESelectPicFragment;
 import com.xjhsk.exampad.ui.exam.fragment.ESelectTxtFragment;
 import com.xjhsk.exampad.ui.exam.fragment.ESortFragment;
 import com.xjhsk.exampad.ui.exam.fragment.EWelcomeFragment;
+import com.xjhsk.exampad.ui.exam.fragment_stand_alone.EEndFragment_SA;
 import com.xjhsk.exampad.ui.main.contract.ExamContract;
 import com.xjhsk.exampad.ui.main.presenter.ExamPresenter;
-import com.xjhsk.exampad.ui.testsound.fragment.RecordFragment;
 import com.xjhsk.exampad.widget.NoTouchViewPager;
 import com.xjhsk.exampad.widget.WaveView;
 import com.xjhsk.exampad.widget.topbar.XTopBar;
@@ -48,11 +48,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 
@@ -220,7 +217,12 @@ public class ExamFragment extends RootFragment<ExamPresenter> implements ExamCon
         }
 
         //添加上传
-        fragments.add(EEndFragment.newInstance(userDir,paperVO.getPagerInfo()));
+        if (isNetWorking()){
+            fragments.add(EEndFragment.newInstance(userDir,paperVO.getPagerInfo()));
+        }else {
+            fragments.add(EEndFragment_SA.newInstance(userDir,paperVO.getPagerInfo()));
+        }
+
 
         //初始化
         viewPager.setNoScroll(true);

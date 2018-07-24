@@ -11,6 +11,7 @@ import com.xjhsk.exampad.base.RxPresenter;
 import com.xjhsk.exampad.model.bean.AnswerHeaderVO;
 import com.xjhsk.exampad.model.bean.AnswerVO;
 import com.xjhsk.exampad.model.bean.PagerInfo;
+import com.xjhsk.exampad.model.bean.StringAnswer;
 import com.xjhsk.exampad.model.event.SocketEvent;
 import com.xjhsk.exampad.model.http.DataManager;
 import com.xjhsk.exampad.model.http.response.HttpResponse;
@@ -111,7 +112,16 @@ public class EEndPresenter extends RxPresenter<EEndContract.View> implements EEn
 
         RequestBody md5Str = RequestBody.create(MediaType.parse("text/plain"), md5);
 
-        addSubscribe(mDataManager.uploadExam(time_mills_body, key_body,exam_no_body, fileName,md5Str,fileData)
+        // 添加一个参数，上传正确答案和考生答案
+        Gson gson = new Gson();
+
+        StringAnswer stringAnswer = AppContext.getInstance().getStringAnswer();
+        String subStuAnswer = stringAnswer.getStuAnswer().substring(0,stringAnswer.getStuAnswer().length()-1); // 截掉最后一个 "#" 号；
+        stringAnswer.setStuAnswer(subStuAnswer);
+        String dataJson = gson.toJson(stringAnswer);
+        RequestBody dataStr = RequestBody.create(MediaType.parse("text/plain"), dataJson);
+
+        addSubscribe(mDataManager.uploadExam(time_mills_body, key_body,exam_no_body, fileName,md5Str,dataStr,fileData)
                 .compose(RxUtil.<HttpResponse<String>>rxSchedulerHelper())
                 .compose(RxUtil.<String>handleTestResult())
                 .subscribeWith(

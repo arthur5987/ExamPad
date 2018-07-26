@@ -67,14 +67,14 @@ android {
 
     //签名
     signingConfigs {
-        debug {
-            //这样写就得把demo.jk文件放在项目目录
-            storeFile file("/asconfig/key.jks")
-            storePassword "123456"
-            keyAlias "hello"
-            keyPassword "123456"
-            v2SigningEnabled true
-        }
+//        debug {
+//            //这样写就得把demo.jk文件放在项目目录
+//            storeFile file("/asconfig/key.jks")
+//            storePassword "123456"
+//            keyAlias "hello"
+//            keyPassword "123456"
+//            v2SigningEnabled true
+//        }
         release {
             //这样写就得把demo.jk文件放在项目目录
             storeFile file("/asconfig/key.jks")
@@ -184,6 +184,13 @@ dependencies {
     //新下载
     //    compile 'zlc.season:rxdownload3:1.2.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
+
+    compile 'com.meiyou:android-skin:1.0.9'
+
+    compile 'skin.support:skin-support:3.1.0-beta1'                   // skin-support 基础控件支持
+    compile 'skin.support:skin-support-design:3.1.0-beta1'            // skin-support-design material design 控件支持[可选]
+    compile 'skin.support:skin-support-cardview:3.1.0-beta1'          // skin-support-cardview CardView 控件支持[可选]
+    compile 'skin.support:skin-support-constraint-layout:3.1.0-beta1' // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
 }
 
 packer {
